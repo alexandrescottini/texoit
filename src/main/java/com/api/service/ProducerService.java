@@ -70,6 +70,7 @@ public class ProducerService {
                         if (!producerPrizes.contains(producerPrizesDTO)){
                             producerPrizes.add(producerPrizesDTO);
                         }
+                        break;
                     }
                 }
             }
