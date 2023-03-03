@@ -43,8 +43,6 @@ i
 9src/test/java/com/api/MovieControllerIntegrationTest.java,c\f\cf984f7185360abc12540b9ce8b4703dedcd75b8
 W
 'src/main/java/com/api/dto/MovieDTO.java,9\9\994510ca56cf2bb85277ca024aecfacd016933ce
-f
-6src/main/java/com/api/dto/ProducerMinMaxPrizesDTO.java,a\2\a2d004d5d7c161302edc559df4e616ef54567c6e
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 V
@@ -53,17 +51,5 @@ e
 5src/main/java/com/api/repository/MovieRepository.java,a\a\aa70ae82753c591c3934ba31a687e52c57371fcc
 h
 8src/main/java/com/api/repository/ProducerRepository.java,a\c\ac2634e674e7d53f5c9e2391b82c941a2ad93f03
-f
-6src/main/java/com/api/repository/StudioRepository.java,8\f\8f745ae9b6e691244ebf18eb7fdf482524bf5a57
-`
-0src/main/java/com/api/service/StudioService.java,6\f\6f9ec5bbc8c65958210605ad7927086584c808df
-h
-8src/main/java/com/api/controller/ProducerController.java,9\5\95ab103aca8fc377b99c5e02faff2bdc0ce9a6ed
 k
 ;src/main/java/com/api/repository/MovieStudioRepository.java,5\f\5f7f0f5bb10c23ab48f276d4663117c2a45507cc
-`
-0src/main/java/com/api/dto/ProducerPrizesDTO.java,0\6\06f00ee3374302181e55485d25f1981feff88787
-m
-=src/main/java/com/api/repository/MovieProducerRepository.java,e\4\e4a223cc59c40c78e1ecd7be36307ffb6fb9d05c
-b
-2src/main/java/com/api/service/ProducerService.java,4\6\465d5c1c3310e3b0370059b58234c548eb80ca4a

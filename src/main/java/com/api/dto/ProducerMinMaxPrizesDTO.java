@@ -28,11 +28,11 @@ public class ProducerMinMaxPrizesDTO {
     public void setMax(List<ProducerPrizesDTO> max) {
         this.max = max;
     }
-    public void addMin(ProducerPrizesDTO min) {
-        this.getMin().add(min);
+    public void addMin(List<ProducerPrizesDTO> min) {
+        this.getMin().addAll(min);
     }
-    public void addMax(ProducerPrizesDTO max) {
-        this.getMax().add(max);
+    public void addMax(List<ProducerPrizesDTO> max) {
+        this.getMax().addAll(max);
     }
 
 }

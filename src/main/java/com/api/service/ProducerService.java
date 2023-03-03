@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProducerService {
@@ -38,54 +39,41 @@ public class ProducerService {
 
     public ProducerMinMaxPrizesDTO getMaxAndMinPrizes() {
         List<MovieProducer> mpList = movieProducerRepository.findByMovieWinnerOrderByProducerId(true);
-        ProducerPrizesDTO min = findMinInterval(mpList);
-        ProducerPrizesDTO max = findMaxInterval(mpList);
+        List<ProducerPrizesDTO> producerPrizes = findAllProducerPrizes(mpList);
+        Integer minInterval = producerPrizes.stream()
+                .map(ProducerPrizesDTO::getInterval)
+                .min(Comparator.naturalOrder()).get();
+        Integer maxInterval = producerPrizes.stream()
+                .map(ProducerPrizesDTO::getInterval)
+                .max(Comparator.naturalOrder()).get();
+
         ProducerMinMaxPrizesDTO dto = new ProducerMinMaxPrizesDTO();
-        dto.addMin(min);
-        dto.addMax(max);
+        dto.addMin(producerPrizes.stream().filter(c -> minInterval.equals(c.getInterval())).collect(Collectors.toList()));
+        dto.addMax(producerPrizes.stream().filter(c -> maxInterval.equals(c.getInterval())).collect(Collectors.toList()));
         return dto;
     }
 
-    private ProducerPrizesDTO findMinInterval(List<MovieProducer> mpList) {
-        ProducerPrizesDTO min = new ProducerPrizesDTO(null, Integer.MAX_VALUE, null, null);
+    private List<ProducerPrizesDTO> findAllProducerPrizes(List<MovieProducer> mpList) {
+        List<ProducerPrizesDTO> producerPrizes = new LinkedList<>();
         for (int i = 0; i < mpList.size() - 1; i++) {
             for (int j = i + 1; j < mpList.size(); j++) {
                 MovieProducer mpi = mpList.get(i);
                 MovieProducer mpj = mpList.get(j);
                 if (mpi.getProducer().equals(mpj.getProducer())) {
                     Integer interval = Math.abs(mpi.getMovie().getYear() - mpj.getMovie().getYear());
-                    if (interval < min.getInterval()) {
-                        min.setInterval(interval);
-                        min.setProducer(mpi.getProducer().getName());
-                        min.setPreviousWin(mpi.getMovie().getYear());
-                        min.setFollowingWin(mpj.getMovie().getYear());
-                        break;
+                    ProducerPrizesDTO producerPrizesDTO = new ProducerPrizesDTO(null, Integer.MIN_VALUE, null, null);
+                    if (interval > producerPrizesDTO.getInterval()) {
+                        producerPrizesDTO.setInterval(interval);
+                        producerPrizesDTO.setProducer(mpi.getProducer().getName());
+                        producerPrizesDTO.setPreviousWin(mpi.getMovie().getYear());
+                        producerPrizesDTO.setFollowingWin(mpj.getMovie().getYear());
+                        if (!producerPrizes.contains(producerPrizesDTO)){
+                            producerPrizes.add(producerPrizesDTO);
+                        }
                     }
                 }
             }
         }
-        return min;
+        return producerPrizes;
     }
-
-    private ProducerPrizesDTO findMaxInterval(List<MovieProducer> mpList) {
-        ProducerPrizesDTO max = new ProducerPrizesDTO(null, Integer.MIN_VALUE, null, null);
-        for (int i = 0; i < mpList.size() - 1; i++) {
-            for (int j = i + 1; j < mpList.size(); j++) {
-                MovieProducer mpi = mpList.get(i);
-                MovieProducer mpj = mpList.get(j);
-                if (mpi.getProducer().equals(mpj.getProducer())) {
-                    Integer interval = Math.abs(mpi.getMovie().getYear() - mpj.getMovie().getYear());
-                    if (interval > max.getInterval()) {
-                        max.setInterval(interval);
-                        max.setProducer(mpi.getProducer().getName());
-                        max.setPreviousWin(mpi.getMovie().getYear());
-                        max.setFollowingWin(mpj.getMovie().getYear());
-                        break;
-                    }
-                }
-            }
-        }
-        return max;
-    }
-
 }

@@ -1,6 +1,6 @@
 package com.api.dto;
 
-public class ProducerPrizesDTO {
+public class ProducerPrizesDTO implements Comparable<ProducerPrizesDTO>{
     private String producer;
     private Integer interval;
     private Integer previousWin;
@@ -41,4 +41,8 @@ public class ProducerPrizesDTO {
         this.followingWin = followingWin;
     }
 
+    @Override
+    public int compareTo(ProducerPrizesDTO o) {
+        return this.getInterval().compareTo(o.getInterval());
+    }
 }
